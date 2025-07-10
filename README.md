@@ -79,10 +79,11 @@ finops-iac-lab/
 #### Terraform 
 
 Initialize and apply Terraform:
-```bash
+
 terraform init
 terraform plan
 terraform apply
+
 2. AWS Billing Cost Allocation Tags
 Navigate to: AWS Billing → Cost Allocation Tags
 
