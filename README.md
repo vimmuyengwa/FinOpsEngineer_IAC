@@ -78,7 +78,6 @@ finops-iac-lab/
 
 #### Terraform 
 
-``bash<img width="208" height="38" alt="image" src="https://github.com/user-attachments/assets/ef3af10d-c459-478f-9574-6c526fbb0218" />
 terraform init
 terraform plan
 terraform apply
