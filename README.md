@@ -75,7 +75,6 @@ finops-iac-lab/
 
 ### Steps
 
-```bash
 terraform init
 terraform plan
 terraform apply
@@ -127,9 +126,7 @@ aws cloudformation deploy \
   --stack-name finops-budget-stack \
   --capabilities CAPABILITY_NAMED_IAM
 Cleanup
-bash
-Copy
-Edit
+
 terraform destroy
 To remove the CloudFormation stack:
 
