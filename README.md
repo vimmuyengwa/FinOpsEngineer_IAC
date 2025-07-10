@@ -78,20 +78,27 @@ finops-iac-lab/
 
 #### Terraform 
 
+Initialize and apply Terraform:
+```bash
 terraform init
 terraform plan
 terraform apply
+2. AWS Billing Cost Allocation Tags
+Navigate to: AWS Billing → Cost Allocation Tags
 
-#### AWS Billing Cost Allocation
-Then go to AWS Billing → Cost Allocation Tags, and activate:
+Activate the following tags:
+
 Owner
+
 CostCenter
+
 Environment
 
-AWS Budget Alert via CloudFormation
-Before deploying with Terraform, this lab uses CloudFormation to create a monthly AWS budget with an email alert when usage exceeds 80% of the $10 limit.
+3. Budget Alert (via CloudFormation)
+Before provisioning with Terraform, deploy a budget alert using CloudFormation to monitor AWS spend.
 
-#### CloudFormation Template: budget.yaml
+📄 budget.yaml
+yaml
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS Monthly Budget Alert
@@ -107,38 +114,64 @@ Resources:
           Unit: USD
         TimeUnit: MONTHLY
         BudgetType: COST
-      NotificationsWithSubscribers:
-        - Notification:
-            NotificationType: ACTUAL
-            ComparisonOperator: GREATER_THAN
-            Threshold: 80
-          Subscribers:
-            - SubscriptionType: EMAIL
-              Address: insert email 
-
-Deployment Command:
+        NotificationsWithSubscribers:
+          - Notification:
+              NotificationType: ACTUAL
+              ComparisonOperator: GREATER_THAN
+              Threshold: 80
+            Subscribers:
+              - SubscriptionType: EMAIL
+                Address: insert-your-email@example.com
+Deploy Budget Stack
+bash
+Copy
+Edit
 aws cloudformation deploy \
   --template-file budget.yaml \
   --stack-name finops-budget-stack \
   --capabilities CAPABILITY_NAMED_IAM
 
-#### Cleanup
+4. Cleanup
+Terraform
 
 terraform destroy
-To remove the CloudFormation stack:
+CloudFormation
+
 aws cloudformation delete-stack --stack-name finops-budget-stack
-
-### What You Learn
-
+What You’ll Learn
 How to apply FinOps tagging strategies
-
-How to track AWS cost per resource via Cost Explorer
-
+How to track AWS cost per resource using Cost Explorer
 Reusable IaC modularization using Terraform
+Use of CloudFormation for financial guardrails
+Hands-on cost monitoring and cleanup practices
 
-CloudFormation for financial guardrails
+---
 
-Hands-on practice managing and monitoring cloud costs
+### `budget.yaml` — Copy This File Separately
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Monthly Budget Alert
+
+Resources:
+  MonthlyBudget:
+    Type: "AWS::Budgets::Budget"
+    Properties:
+      Budget:
+        BudgetName: "FinOpsMonthlyBudget"
+        BudgetLimit:
+          Amount: 10
+          Unit: USD
+        TimeUnit: MONTHLY
+        BudgetType: COST
+        NotificationsWithSubscribers:
+          - Notification:
+              NotificationType: ACTUAL
+              ComparisonOperator: GREATER_THAN
+              Threshold: 80
+            Subscribers:
+              - SubscriptionType: EMAIL
+                Address: insert-your-email@example.com
 
 
 Author
