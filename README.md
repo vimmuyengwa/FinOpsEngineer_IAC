@@ -78,21 +78,17 @@ finops-iac-lab/
 terraform init
 terraform plan
 terraform apply
+
 Then go to AWS Billing → Cost Allocation Tags, and activate:
-
 Owner
-
 CostCenter
-
 Environment
 
 AWS Budget Alert via CloudFormation
 Before deploying with Terraform, this lab uses CloudFormation to create a monthly AWS budget with an email alert when usage exceeds 80% of the $10 limit.
 
-CloudFormation Template: budget.yaml
-yaml
-Copy
-Edit
+#### CloudFormation Template: budget.yaml
+
 AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS Monthly Budget Alert
 
@@ -114,27 +110,22 @@ Resources:
             Threshold: 80
           Subscribers:
             - SubscriptionType: EMAIL
-              Address: your-email@example.com
-Replace your-email@example.com with your actual email address.
+              Address: insert email 
 
 Deployment Command:
-bash
-Copy
-Edit
 aws cloudformation deploy \
   --template-file budget.yaml \
   --stack-name finops-budget-stack \
   --capabilities CAPABILITY_NAMED_IAM
-Cleanup
+
+#### Cleanup
 
 terraform destroy
 To remove the CloudFormation stack:
-
-bash
-Copy
-Edit
 aws cloudformation delete-stack --stack-name finops-budget-stack
-What You Learn
+
+### What You Learn
+
 How to apply FinOps tagging strategies
 
 How to track AWS cost per resource via Cost Explorer
@@ -145,14 +136,6 @@ CloudFormation for financial guardrails
 
 Hands-on practice managing and monitoring cloud costs
 
-Next Steps (Optional Enhancements)
-Add a Terraform-based AWS budget module
-
-Add lifecycle rules for S3 bucket to reduce storage costs
-
-Enable Cost and Usage Reports (CUR) for detailed spend analysis
-
-Use AWS Config or SCPs for tag enforcement and governance
 
 Author
 Vimbai Muyengwa
