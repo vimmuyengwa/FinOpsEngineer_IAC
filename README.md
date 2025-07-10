@@ -2,24 +2,8 @@
 FinOps Infrastructure-as-Code Project 
 
 Recommended Folder & File Layout
-css
-Copy
-Edit
-finops-iac-lab/
-├── modules/
-│   ├── ec2/
-│   │   ├── main.tf
-│   │   └── variables.tf
-│   └── s3/
-│       ├── main.tf
-│       └── variables.tf
-├── main.tf
-├── variables.tf
-├── providers.tf
-├── README.md
-├── .gitignore
-🧾 README.md (Summary of Work)
-Here’s an outline you can use for your README.md:
+<pre><code> ``` finops-iac-lab/ ├── modules/ │ ├── ec2/ │ │ ├── main.tf │ │ └── variables.tf │ └── s3/ │ ├── main.tf │ └── variables.tf ├── main.tf ├── variables.tf ├── providers.tf ├── README.md ├── .gitignore ``` </code></pre>
+README.md (Summary of Work)
 
 # FinOps Infrastructure as Code Lab
 This project is a modular, reusable Terraform lab to demonstrate FinOps principles through automated AWS resource provisioning with cost governance in mind.
@@ -48,7 +32,7 @@ Module	Purpose
 ec2	Deploys a lightweight EC2 instance with FinOps tags
 s3	Deploys a uniquely named S3 bucket with FinOps tags
 
-## 📂 Files Overview
+## Files Overview
 File	Description
 main.tf	Connects modules and passes variables
 variables.tf	Defines user-customizable variables
