@@ -71,14 +71,19 @@ finops-iac-lab/
 
 - AWS CLI configured (`aws configure`)
 - Terraform installed
+  Follow the [Terraform Install Guide](https://developer.hashicorp.com/terraform/downloads) to set up Terraform.
 - IAM user with `EC2`, `S3`, `CloudFormation`, and `Budgets` permissions
 
 ### Steps
 
+#### Terraform 
+
+```bash<img width="208" height="38" alt="image" src="https://github.com/user-attachments/assets/ef3af10d-c459-478f-9574-6c526fbb0218" />
 terraform init
 terraform plan
 terraform apply
 
+#### AWS Billing Cost Allocation
 Then go to AWS Billing → Cost Allocation Tags, and activate:
 Owner
 CostCenter
