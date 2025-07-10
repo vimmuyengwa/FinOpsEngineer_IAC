@@ -1,86 +1,162 @@
 # FinOpsEngineer_IAC
 FinOps Infrastructure-as-Code Project 
 
-Recommended Folder & File Layout
-<pre><code> ``` finops-iac-lab/ ├── modules/ │ ├── ec2/ │ │ ├── main.tf │ │ └── variables.tf │ └── s3/ │ ├── main.tf │ └── variables.tf ├── main.tf ├── variables.tf ├── providers.tf ├── README.md ├── .gitignore ``` </code></pre>
-README.md (Summary of Work)
-
-# FinOps Infrastructure as Code Lab
-This project is a modular, reusable Terraform lab to demonstrate FinOps principles through automated AWS resource provisioning with cost governance in mind.
-
 ## Objective
+
 Build a FinOps-focused cloud environment using Infrastructure-as-Code that supports:
 
-Automated provisioning of EC2 and S3 resources
+- Automated provisioning of EC2 and S3 resources
+- Standardized cost allocation tagging
+- Visibility into spend through AWS Cost Explorer and Billing
+- Easy cleanup and repeatable testing
 
-Standardized cost allocation tagging
-
-Visibility into spend through AWS Cost Explorer and Billing
-
-Easy cleanup and repeatable testing
+---
 
 ## Architecture
-This lab deploys:
 
-An EC2 instance (t2.micro) with FinOps tagging (Owner, CostCenter, Environment)
-An S3 bucket with unique naming and lifecycle tagging
-Modularized Terraform structure for reuse and scale
-Optional integration with AWS Cost Explorer and Budgets
+This lab includes:
+
+- An **EC2 instance** (t2.micro) with FinOps tagging (`Owner`, `CostCenter`, `Environment`)
+- An **S3 bucket** with unique naming via `random_id` and cost tags
+- Modularized **Terraform** structure for reusability
+- A **CloudFormation-based AWS Budget alert** with email notification
+
+---
+
+## Recommended Folder & File Layout
+
+<pre><code>
+finops-iac-lab/
+├── modules/
+│   ├── ec2/
+│   │   ├── main.tf
+│   │   └── variables.tf
+│   └── s3/
+│       ├── main.tf
+│       └── variables.tf
+├── main.tf
+├── variables.tf
+├── providers.tf
+├── README.md
+├── .gitignore
+</code></pre>
+
+---
 
 ## Modules
-Module	Purpose
-ec2	Deploys a lightweight EC2 instance with FinOps tags
-s3	Deploys a uniquely named S3 bucket with FinOps tags
+
+| Module | Purpose |
+|--------|---------|
+| `ec2`  | Deploys a lightweight EC2 instance with FinOps tags |
+| `s3`   | Deploys a uniquely named S3 bucket with FinOps tags |
+
+---
 
 ## Files Overview
-File	Description
-main.tf	Connects modules and passes variables
-variables.tf	Defines user-customizable variables
-providers.tf	AWS provider and region config
-modules/ec2	EC2 module with tagging
-modules/s3	S3 module with random name + tagging
+
+| File              | Description                                 |
+|-------------------|---------------------------------------------|
+| `main.tf`         | Connects modules and passes variables       |
+| `variables.tf`    | Defines user-customizable variables         |
+| `providers.tf`    | AWS provider and region configuration       |
+| `modules/ec2`     | Contains EC2 Terraform code and variables   |
+| `modules/s3`      | Contains S3 Terraform code and variables    |
+| `.gitignore`      | Excludes Terraform state and config files   |
+
+---
 
 ## Getting Started
-Prerequisites
-AWS CLI configured (aws configure)
 
-Terraform installed
+### Prerequisites
 
-IAM user with EC2/S3/CloudFormation/Budgets permissions
+- AWS CLI configured (`aws configure`)
+- Terraform installed
+- IAM user with `EC2`, `S3`, `CloudFormation`, and `Budgets` permissions
 
-Steps
-bash
-Copy
-Edit
+### Steps
+
+```bash
 terraform init
 terraform plan
 terraform apply
-Activate cost allocation tags in AWS Billing
+Then go to AWS Billing → Cost Allocation Tags, and activate:
 
-## Cleanup
+Owner
+
+CostCenter
+
+Environment
+
+AWS Budget Alert via CloudFormation
+Before deploying with Terraform, this lab uses CloudFormation to create a monthly AWS budget with an email alert when usage exceeds 80% of the $10 limit.
+
+CloudFormation Template: budget.yaml
+yaml
+Copy
+Edit
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Monthly Budget Alert
+
+Resources:
+  MonthlyBudget:
+    Type: "AWS::Budgets::Budget"
+    Properties:
+      Budget:
+        BudgetName: "FinOpsMonthlyBudget"
+        BudgetLimit:
+          Amount: 10
+          Unit: USD
+        TimeUnit: MONTHLY
+        BudgetType: COST
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 80
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: your-email@example.com
+Replace your-email@example.com with your actual email address.
+
+Deployment Command:
+bash
+Copy
+Edit
+aws cloudformation deploy \
+  --template-file budget.yaml \
+  --stack-name finops-budget-stack \
+  --capabilities CAPABILITY_NAMED_IAM
+Cleanup
 bash
 Copy
 Edit
 terraform destroy
+To remove the CloudFormation stack:
 
-## What You Learn
+bash
+Copy
+Edit
+aws cloudformation delete-stack --stack-name finops-budget-stack
+What You Learn
 How to apply FinOps tagging strategies
 
 How to track AWS cost per resource via Cost Explorer
 
 Reusable IaC modularization using Terraform
 
+CloudFormation for financial guardrails
+
 Hands-on practice managing and monitoring cloud costs
 
-## Next Steps (Optional Enhancements)
-Add Terraform budget alert module
+Next Steps (Optional Enhancements)
+Add a Terraform-based AWS budget module
 
-Integrate S3 lifecycle rules
+Add lifecycle rules for S3 bucket to reduce storage costs
 
-Set up Cost and Usage Reports (CUR)
+Enable Cost and Usage Reports (CUR) for detailed spend analysis
 
-Use AWS Config or SCPs for tag enforcement
+Use AWS Config or SCPs for tag enforcement and governance
 
-## Author
+Author
 Vimbai Muyengwa
-MISM ’25 @ Carnegie Mellon | FinOps | Cloud Strategy | Technical Program Management
+MISM ’25 @ Carnegie Mellon | FinOps | Cloud Strategy<img width="786" height="38" alt="image" src="https://github.com/user-attachments/assets/731ea7af-c128-47f3-b70f-3616375f5e31" />
