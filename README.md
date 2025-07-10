@@ -143,4 +143,4 @@ Hands-on practice managing and monitoring cloud costs
 
 Author
 Vimbai Muyengwa
-MISM ’25 @ Carnegie Mellon | FinOps | Cloud Strategy<img width="786" height="38" alt="image" src="https://github.com/user-attachments/assets/731ea7af-c128-47f3-b70f-3616375f5e31" />
+MISM ’25 @ Carnegie Mellon | FinOps | Cloud Strategy
