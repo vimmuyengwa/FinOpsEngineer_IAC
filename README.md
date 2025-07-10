@@ -123,10 +123,9 @@ Resources:
             Subscribers:
               - SubscriptionType: EMAIL
                 Address: insert-your-email@example.com
+
 Deploy Budget Stack
-bash
-Copy
-Edit
+
 aws cloudformation deploy \
   --template-file budget.yaml \
   --stack-name finops-budget-stack \
@@ -172,8 +171,7 @@ Resources:
               Threshold: 80
             Subscribers:
               - SubscriptionType: EMAIL
-                Address: insert-your-email@example.com
-
+                Address: email
 
 Author
 Vimbai Muyengwa
