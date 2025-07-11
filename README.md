@@ -5,19 +5,50 @@ FinOps Infrastructure-as-Code Project
 
 Build a FinOps-focused cloud environment using Infrastructure-as-Code that supports:
 
-- Automated provisioning of EC2 and S3 resources
-- Standardized cost allocation tagging
-- Visibility into spend through AWS Cost Explorer and Billing
+- Set up an AWS Budget alert using CloudFormation  
+- Automated provisioning of EC2 and S3 resources with terrafrom
+- Standardized cost allocation tagging with terraform
 - Easy cleanup and repeatable testing
+- Visibility into spend through AWS Cost Explorer and Billing
+- Enable automated cleanup
 
 ---
+
+## Folder Structure
+
+```cpp
+finops-iac-lab/
+├── terraform/
+│   ├── main.tf)
+├── cloudformation/
+│   └── budget.yaml
+├── README.md
+└── .gitignore
+```
+
 
 ## Prerequisits 
 AWS CLI installed on Mac 
 
-Run this in your terminal:
+Run in terminal:
 
+```bash
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+```
+
+Install the package
+Run:
+
+```bash
+sudo installer -pkg AWSCLIV2.pkg -target /
+```
+
+Configure AWS CLI
+Once it’s installed, run:
+
+```bash
+aws configure
+```
 
 ## Architecture
 
