@@ -147,7 +147,7 @@ Hands-on cost monitoring and cleanup practices
 
 ---
 
-### `budget.yaml` — Copy This File Separately
+### `budget.yaml` 
 
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
