@@ -19,4 +19,4 @@ Resources:
             Threshold: 80
           Subscribers:
             - SubscriptionType: EMAIL
-              Address: vmuyengw@andrew.cmu.edu
+              Address: insert email
