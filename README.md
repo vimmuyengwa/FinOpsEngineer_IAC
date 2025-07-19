@@ -103,6 +103,7 @@ aws cloudformation deploy \
 
 ```bash
 mkdir finops-terraform && cd finops-terraform
+```
 
 ## Step 2.2: Create main.tf
 ```hcl
